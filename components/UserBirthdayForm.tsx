@@ -1,11 +1,15 @@
 import { useToast } from "@chakra-ui/react";
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useBirthdayInfoContext } from "../contexts/birthdayInfoContext";
 import { BirthdayData } from "../interfaces/birthdays";
 import { Button, FormLabel, HStack, Input, VStack } from "@chakra-ui/react";
 
-export default function UserBirthdayForm({ setIsEdittingUser }) {
+type UserBirthdayFormProps = {
+  setIsEdittingUser: Dispatch<boolean>
+}
+
+export default function UserBirthdayForm({ setIsEdittingUser }: UserBirthdayFormProps) {
   const { register, handleSubmit, reset } = useForm();
   const { setUserBirthday, birthdays } = useBirthdayInfoContext()
   const [formStep, setFormStep] = useState(1)

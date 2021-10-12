@@ -1,6 +1,17 @@
 import { Button, FormLabel, HStack, Input, VStack } from "@chakra-ui/react";
+import { Dispatch } from "react";
+import { FieldValues, SubmitHandler, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+import { BirthdayData } from "../interfaces/birthdays";
 
-export default function AddBirthdayForm({ handleSubmit, handlePost, register, hideAddNewBirthDay, setFormStep, formStep }) {
+type AddBirthdayFormProps = {
+  handleSubmit: UseFormHandleSubmit<FieldValues>
+  handlePost: SubmitHandler<BirthdayData>
+  register: UseFormRegister<FieldValues> 
+  hideAddNewBirthDay: () => void 
+  setFormStep: Dispatch<number>, 
+  formStep: number
+}
+export default function AddBirthdayForm({ handleSubmit, handlePost, register, hideAddNewBirthDay, setFormStep, formStep }: AddBirthdayFormProps) {
 
   function nextStep() {
     setFormStep(formStep + 1)

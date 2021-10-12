@@ -1,7 +1,12 @@
 import { Button, Text, VStack } from "@chakra-ui/react";
+import { Dispatch } from "react";
 import { useBirthdayInfoContext } from "../contexts/birthdayInfoContext";
 
-export default function UserBirthdayInfo({ setIsEdittingUser }) {
+type UserBirthdayInfoProps = {
+  setIsEdittingUser: Dispatch<boolean>
+}
+
+export default function UserBirthdayInfo({ setIsEdittingUser }: UserBirthdayInfoProps) {
   const { userBirthday } = useBirthdayInfoContext()
 
   return (
