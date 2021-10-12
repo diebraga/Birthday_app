@@ -4,4 +4,5 @@ export type BirthdayData = {
   day: string
   year: string
   id: string
+  email: string
 }

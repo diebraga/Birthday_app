@@ -6,14 +6,52 @@ import { useBirthdayInfoContext } from '../contexts/birthdayInfoContext'
 import AddBirthdayForm from '../components/addBirthdayForm'
 import BirthdayList from '../components/birthdayList'
 import { BirthdayData } from '../interfaces/birthdays'
+import UserBirthdayForm from '../components/UserBirthdayForm'
+import UserBirthdayInfo from '../components/UserBirthdayInfo'
+import moment from 'moment'
 
 const IndexPage = () => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  const { setBirthdays } = useBirthdayInfoContext()
+  const { register, handleSubmit, reset } = useForm();
+  const { setBirthdays, userBirthday, birthdays } = useBirthdayInfoContext()
   const [addNewBirthday, setAddNewBirthday] = useState(false)
   const [formStep, setFormStep] = useState(1)
-
+  const [isEdittingUser, setIsEdittingUser] = useState(false)
+  
   const toast = useToast()
+
+  const getUserDateBirth = userBirthday.month + userBirthday.day + userBirthday.year
+
+  const dieffBetweenNowAndYearOfBirth = moment().diff(moment(getUserDateBirth, 'MMDDYYYY'), 'years')
+
+  const getFormatedDateNow = new Date(Date.now()).toLocaleDateString(
+    'en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      // year: 'numeric'
+    }
+  )
+
+  const userFormatedDate = userBirthday.day + ' ' + userBirthday.month
+
+  useEffect(() => {
+    if (getFormatedDateNow.replace('/', ' ') ===  userFormatedDate) {
+      alert(`Email sent to: ${userBirthday.email}, message: Congrats for you ${dieffBetweenNowAndYearOfBirth}th birthday!`)
+    }
+  }, [userBirthday])
+
+  useEffect(() => {
+    birthdays.map(item => {
+      const getUserDateBirth = item.month + item.day + item.year
+
+      const dieffBetweenNowAndYearOfBirth = moment().diff(moment(getUserDateBirth, 'MMDDYYYY'), 'years')   
+      
+      const userFormatedDate = item.day + ' ' + item.month
+
+      if (getFormatedDateNow.replace('/', ' ') ===  userFormatedDate) {
+        alert(`Email sent to: ${item.email}, message: Congrats for you ${dieffBetweenNowAndYearOfBirth}th birthday!`)
+      }  
+    })
+  }, [birthdays])
 
   const handlePost: SubmitHandler<BirthdayData> = async (formData) => {
     const data = {
@@ -21,7 +59,7 @@ const IndexPage = () => {
       month: formData.month.toLocaleLowerCase(),
       id: Math.random().toString(36).substr(2, 9)
     }
-    if (formData.name === '' || formData.month === '' || formData.day === '' || formData.year === '') {
+    if (formData.name === '' || formData.month === '' || formData.day === '' || formData.year === '' || formData.email === '') {
       toast({
         title: "Error.",
         description: "One or more fields are inconplete!.",
@@ -47,12 +85,16 @@ const IndexPage = () => {
     setAddNewBirthday(false)
   }
 
+  const userIsNotFilled = userBirthday.id === undefined
+
   return (
     <Layout title="Home">
       <Heading>Happy Birthday app!</Heading>
       <Center>
+        {!isEdittingUser && <UserBirthdayInfo setIsEdittingUser={setIsEdittingUser}/>}
+        {isEdittingUser && <UserBirthdayForm setIsEdittingUser={setIsEdittingUser}/>}
         {addNewBirthday && <AddBirthdayForm handlePost={handlePost} formStep={formStep} setFormStep={setFormStep} register={register} handleSubmit={handleSubmit} hideAddNewBirthDay={hideAddNewBirthDay}/>}
-        {!addNewBirthday && (
+        {!addNewBirthday && !userIsNotFilled && !isEdittingUser && (
           <>
           <BirthdayList/>
           <Button onClick={showAddNewBirthDay}>Add new birthday</Button>
