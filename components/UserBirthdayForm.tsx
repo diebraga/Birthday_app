@@ -52,15 +52,15 @@ export default function UserBirthdayForm({ setIsEdittingUser }) {
       </FormLabel>
       <FormLabel display={formStep === 2 ? 'block' : 'none'}>
         What month where you born?
-        <Input placeholder='What month where you born?' {...register('month')}/>
+        <Input placeholder='Ex: 01, 02, to... 12' {...register('month')}/>
       </FormLabel>
       <FormLabel display={formStep === 3 ? 'block' : 'none'}>
         Your day of birth is?
-        <Input placeholder="Whose birthday is It?" {...register('day')}/>
+        <Input placeholder="Ex: 01, 02, 03, 25" {...register('day')}/>
       </FormLabel>
       <FormLabel display={formStep === 4 ? 'block' : 'none'}>
         What year where you born?
-        <Input placeholder='What year where you born?' {...register('year')}/>
+        <Input placeholder='Ex: 1980, 1990, 2010' {...register('year')}/>
       </FormLabel>
       <FormLabel display={formStep === 5 ? 'block' : 'none'}>
         What's your email?

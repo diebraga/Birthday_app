@@ -97,7 +97,7 @@ const IndexPage = () => {
         {!addNewBirthday && !userIsNotFilled && !isEdittingUser && (
           <>
           <BirthdayList/>
-          <Button onClick={showAddNewBirthDay}>Add new birthday</Button>
+          <Button onClick={showAddNewBirthDay}>Would you like to add another person?</Button>
           </>
         )}
       </Center>
